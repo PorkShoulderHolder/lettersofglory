@@ -1,0 +1,47 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="../static/css/foundation.min.css" />
+    <script src="../static/js/vendor/modernizr.min.js"></script>
+  </head>
+  <body>
+
+     <div class="row">
+
+
+    <div class="large-10 large-centered columns " id = "main">
+        <div class=" column medium-7 panel left callout">
+            <h5>Words</h5>
+            <div class="panel " id = "words">
+            {%- for word in game_data.current_state.words %}
+                {{word}}
+            {%- endfor %}
+            </div>
+        </div>
+
+        <div class="column medium-4 panel right callout">
+          <h5>Letters</h5>
+          <div class="panel " id = "letters">
+             {%- for letter in game_data.current_state.exposed_letters %}
+                   {{letter}},
+             {%- endfor %}
+         </div>
+        </div>
+    <div id = "flip" class="button left medium-7 small-12"> random flip </div>
+    <div id = "new_word" class="button right medium-4 small-12"> + word </div>
+
+    </div>
+
+    </div>
+    <script src="../static/js/vendor/jquery.min.js"></script>
+    <script src="../static/js/foundation.min.js"></script>
+    <script src="../static/js/game.js"></script>
+    <script>GAME_STATE = {{ game_json|safe }}</script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
