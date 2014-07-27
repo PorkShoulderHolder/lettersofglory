@@ -39,6 +39,13 @@ def new_letter():
     data = manager.flip_new_letter(game_id, new_letter)
     return json.dumps(data,default=lambda o: o.__dict__)
 
+@app.route("/api/rejected", methods=["GET"])
+def ban_word():
+    word = request.args.get('word')
+    game_id = request.args.get('id')
+    manager.disallow(game_id, word)
+    return json.dumps("1")
+
 @app.route("/api/validate", methods=["GET"])
 def validate():
 
@@ -59,9 +66,8 @@ def games():
 @app.route("/new_game", methods=["GET"])
 def new_game():
     play_with_computer = bool(int(request.args.get('ai')))
-    game = manager.start_new_game()
-    return render_template("game.html", game_data = game , game_json = json.dumps(game.current_state, default=lambda o: o.__dict__))
-
+    game = manager.start_new_game(play_with_computer)
+    return game.id
 
 @app.route("/api/join_game", methods=["GET"])
 def join_game():

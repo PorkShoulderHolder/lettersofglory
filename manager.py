@@ -15,18 +15,20 @@ def flip_new_letter(game_id, letter = None):
     if game is None:
         return "GAME_NOT_FOUND"
     game.flip_letter(letter)
-
-    new_data = anagram.calculate_best_word(game.current_state.words,game.current_state.exposed_letters)
-    options = []
-    if new_data is not None:
-        for option in new_data:
-            if option is not None and len(option["new_word"]) >= config.MIN_WORD_LENGTH:
-                option["definition"] = str(Word(option["new_word"]).definitions)
-                options.append(option)
+    new_data = None
+    options = None
+    if(game.ai):
+        new_data = anagram.calculate_best_word(game.current_state.words,game.current_state.exposed_letters, stopwords=game.disallowed)
+        options = []
+        if new_data is not None:
+            for option in new_data:
+                if option is not None and len(option["new_word"]) >= config.MIN_WORD_LENGTH:
+                    option["definition"] = str(Word(option["new_word"]).definitions)
+                    options.append(option)
 
     brain.set_game(game)
     if new_data is None:
-        return "no new words found"
+        return "0"
     else:
         return options
 
@@ -68,6 +70,16 @@ def validate_solution_for_state(state,new_word,old_word,letters_used,player = No
         return True
     return False
 
+def disallow(game_id, word):
+    """
+    add word to stopword list for game
+    """
+    game = brain.get_game(str(game_id))
+
+    game.disallowed[word] = True
+    brain.set_game(game)
+
+
 
 def get_all_games():
     """
@@ -77,8 +89,8 @@ def get_all_games():
     return games
 
 
-def start_new_game():
-    game = brain.set_new_game()
+def start_new_game(ai = False):
+    game = brain.set_new_game(ai)
     return game
 
 def join_game(game_id, name = "anon"):

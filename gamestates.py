@@ -19,14 +19,16 @@ class Player(object):
         return score
 
 class Game(object):
-    def __init__(self, expiry = 3600, initial_state = None, players = []):
+    def __init__(self, ai, expiry = 3600, initial_state = None, players = []):
         self.states = []
+        self.disallowed = {}
         self.expiry = expiry
+        self.ai = ai
         if initial_state is not None:
             self.current_state = initial_state
             self.players = initial_state.players
         else:
-            self.current_state = State()
+            self.current_state = State(ai = self.ai)
             self.players = players
         self.id = self.current_state.id
         self.states.append(self.current_state)
@@ -54,6 +56,7 @@ class State(object):
         self.hidden_letters = hidden_letters
         self.exposed_letters = exposed_letters
         self.words = [""]
+        self.ai = ai
         for player in players:
             self.players_dict[player.name] = player
             for word in player.words:

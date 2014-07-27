@@ -8,11 +8,11 @@ client = redis.StrictRedis.from_url(config.REDIS_URI)
 def process_gamestate(state):
     assert state.__class__ == State
 
-def set_new_game(state = None, expiry = 3600):
+def set_new_game(ai, state = None, expiry = 3600):
     if state is not None:
-        game = Game(state,expiry)
+        game = Game(ai, state, expiry)
     else:
-        game = Game()
+        game = Game(ai)
     set_game(game)
     return game
 

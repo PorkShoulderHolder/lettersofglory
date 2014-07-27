@@ -50,8 +50,10 @@ def calculate_anagram(word,letters, depth = 1):
 
     return solutions
 
-def calculate_best_word(words,letters, solution_depth = 3):
+def calculate_best_word(words,letters, solution_depth = 3, stopwords = None):
     depth_cp = solution_depth
+    if stopwords is None:
+        stopwords = {}
     words = sorted(words, cmp=lambda x,y: cmp(len(y),len(x)))
     choices = []
     if len(words) == 0:
@@ -65,9 +67,14 @@ def calculate_best_word(words,letters, solution_depth = 3):
             if depth_cp == 0:
                 break
             elif len(choice) >= config.MIN_WORD_LENGTH:
-                dif = letter_difference(word, choice)
-                choices.append({"new_word":choice, "old_word":word, "letters_used": dif})
-                depth_cp -= 1
+                try:
+                    a = stopwords[choice]
+                    pass
+                except KeyError:
+                    dif = letter_difference(word, choice)
+                    choices.append({"new_word":choice, "old_word":word, "letters_used": dif})
+                    depth_cp -= 1
+
 
     choices = sorted(choices, cmp=lambda x,y: cmp(len(y),len(x)))
     if len(choices) > solution_depth:
