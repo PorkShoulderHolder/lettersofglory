@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="../static/css/foundation.min.css" />
+    <
+    <script src="../static/js/vendor/modernizr.min.js"></script>
+    <script src="../static/js/vendor/jquery.min.js"></script>
+    <script src="../static/js/selectgame.js"></script>
+
+  </head>
+  <body>
+    
+     <div class="row">
+
+
+    <div class="large-6 large-centered columns">
+     <a id="new_game_nocomp"  class="success button expand">Create Game</a>
+     <a id="new_game_comp"  class="success button expand">Play With Computer</a>
+
+      {%- for game in item_list %}
+
+                <a href="/gameview?game_id={{ game.id }}" class="button expand"> {{game.id}}</a>
+     {%- endfor %}
+    </div>
+
+    </div>
+    <script src="../static/js/vendor/jquery.min.js"></script>
+    <script src="../static/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
