@@ -125,12 +125,16 @@ $(document).keydown(function(e) {
     var letter = String.fromCharCode(charCode);
     if(GAME_STATE.ai){
         // if computer is playing then use key inputs to signify new flipped letters
-        $("#letters").append(letter + ", ");
-        $.get("/api/letter?new_letter=" + letter + "&id=" + GAME_STATE.id, function(data){
-          handleAnswer(data)
-        })
+        if('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(letter) != -1){
+            // any other key
+
+            $("#letters").append(letter.toLowerCase() + ", ");
+            $.get("/api/letter?new_letter=" + letter.toLowerCase() + "&id=" + GAME_STATE.id, function(data){
+              handleAnswer(data)
+            })
+        }
     }
-    else if(charCode == 13){
+    else if(charCode == 13 && !GAME_STATE.ai){
         // return key
         submitNewWord(SUBMISSION);
         SUBMISSION = '';
