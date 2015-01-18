@@ -1,9 +1,9 @@
 __author__ = 'sam.royston'
 import sys
 
-REDIS_URI =  "redis://localhost:6380/0" if sys.platform is 'darwin' else "redis://localhost:6379/0"
+REDIS_URI =  "redis://localhost:6380/0" if sys.platform == 'darwin' else "redis://localhost:6379/0"
 
-
+print "REDIS_URI:" + REDIS_URI
 LETTER_COUNTS = {
                     "a":5,
                     "b":2,
